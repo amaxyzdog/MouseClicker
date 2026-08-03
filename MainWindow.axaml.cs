@@ -34,7 +34,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            using var stream = AssetLoader.Open(new Uri("avares://MouseClicker/icon.jpg"));
+            using var stream = AssetLoader.Open(new Uri("avares://MouseClicker/icon.png"));
             return new Bitmap(stream);
         }
         catch
@@ -47,7 +47,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            using var stream = AssetLoader.Open(new Uri("avares://MouseClicker/icon.jpg"));
+            using var stream = AssetLoader.Open(new Uri("avares://MouseClicker/icon.png"));
             return new WindowIcon(new Bitmap(stream));
         }
         catch

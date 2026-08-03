@@ -7,7 +7,6 @@ C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\MouseClicker.Asse
 C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\MouseClicker.csproj.CoreCompileInputs.cache
 C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\MouseClicker.dll
 C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\refint\MouseClicker.dll
-C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\icon.jpg
 C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\MouseClicker.exe
 C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\MouseClicker.deps.json
 C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\MouseClicker.runtimeconfig.json
@@ -48,3 +47,4 @@ C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\MouseCli.622944C0
 C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\MouseClicker.genruntimeconfig.cache
 C:\Users\amaxyzdog\Documents\VD项目\obj\Debug\net8.0\win-x64\ref\MouseClicker.dll
 C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\icon.ico
+C:\Users\amaxyzdog\Documents\VD项目\bin\Debug\net8.0\win-x64\icon.png

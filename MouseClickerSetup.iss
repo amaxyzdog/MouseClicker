@@ -1,5 +1,5 @@
 #define MyAppName "鼠标连点器"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "J4s"
 #define MyAppExeName "MouseClicker.exe"
 
@@ -39,24 +39,3 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilen
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "启动鼠标连点器"; Flags: nowait postinstall skipifsilent
-
-[Code]
-function IsDotNet8RuntimeInstalled(): Boolean;
-var
-  ver: String;
-begin
-  Result := RegQueryStringValue(HKLM, 'SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.NETCore.App', 'Version', ver) or
-            RegQueryStringValue(HKLM, 'SOFTWARE\dotnet\Setup\InstalledVersions\x86\sharedfx\Microsoft.NETCore.App', 'Version', ver);
-end;
-
-function InitializeSetup(): Boolean;
-var
-  errCode: Integer;
-begin
-  if not IsDotNet8RuntimeInstalled then
-  begin
-    if MsgBox('检测到未安装 .NET 8 运行时，程序可能无法启动。是否现在打开下载页面？', mbConfirmation, MB_YESNO) = IDYES then
-      ShellExec('open', 'https://dotnet.microsoft.com/download/dotnet/8.0/runtime', '', '', SW_SHOWNORMAL, ewNoWait, errCode);
-  end;
-  Result := True;
-end;

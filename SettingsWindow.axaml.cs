@@ -3,6 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using System.Diagnostics;
 using MouseClicker.Services;
 using MouseClicker.ViewModels;
 
@@ -28,6 +29,7 @@ public partial class SettingsWindow : Window
         {
             var (x, y) = MouseService.GetCursorPosition();
             LivePositionText.Text = $"{x}, {y}";
+            LivePositionTextFlat.Text = $"{x}, {y}";
         };
         _positionTimer.Start();
         Closed += (_, _) => _positionTimer.Stop();
@@ -47,11 +49,24 @@ public partial class SettingsWindow : Window
 
     private void DoneButton_Click(object? sender, RoutedEventArgs e) => Close();
 
-    private void AboutButton_Click(object? sender, RoutedEventArgs e)
+    /// <summary>简洁/高效模式切换：简洁模式显示菜单分组，高效模式无菜单、直接平铺所有设置项。按钮显示当前模式。</summary>
+    private bool _efficientMode;
+
+    private void ModeToggle_Click(object? sender, RoutedEventArgs e)
     {
-        var window = new AboutWindow();
-        window.Show(this);
-        window.Activate();
+        _efficientMode = !_efficientMode;
+        ModeToggleButton.Content = _efficientMode ? "高效模式" : "简洁模式";
+        SimplePanel.IsVisible = !_efficientMode;
+        FlatPanel.IsVisible = _efficientMode;
+    }
+
+    /// <summary>在系统默认浏览器中打开链接（Tag 存 URL）。</summary>
+    private void OpenLink_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button { Tag: string url } && !string.IsNullOrWhiteSpace(url))
+        {
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
     }
 
     private void HotKeyButton_Click(object? sender, RoutedEventArgs e)

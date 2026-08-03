@@ -88,24 +88,40 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="连点器设置" FontSize="14" FontWeight="SemiBold"
                            Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
-                <Button Grid.Column="1" Theme="{StaticResource IconButtonTheme}"
+                <!-- 简洁 / 高效模式切换（显示当前模式，点击切换） -->
+                <Button Grid.Column="1" x:Name="ModeToggleButton" Content="简洁模式"
+                        ToolTip.Tip="切换简洁 / 高效模式"
+                        Click="ModeToggle_Click" Margin="0,0,8,0" FontSize="12"
+                        Padding="12,4" VerticalAlignment="Center" />
+                <Button Grid.Column="2" Theme="{StaticResource IconButtonTheme}"
                         ToolTip.Tip="关闭"
                         Click="CloseButton_Click">
                     <fa:SymbolIcon Symbol="Cancel" FontSize="12" />
                 </Button>
             </Grid>
 
-            <!-- 设置内容：Win11 设置风格分组 -->
-            <ScrollViewer Grid.Row="1" Margin="0,14,0,0" MaxHeight="460"
+            <!-- 设置内容：简洁模式为菜单分组，高效模式直接平铺所有项 -->
+            <ScrollViewer Grid.Row="1" Margin="0,10,0,0" MaxHeight="460"
                           HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Spacing="10">
+                <Grid>
+                    <!-- 简洁模式：菜单分组列表（收起的菜单，可展开） -->
+                    <StackPanel x:Name="SimplePanel" Spacing="6">
 
                     <!-- 组 1：点击 -->
-                    <fa:SettingsExpander Header="点击" Description="连点间隔、随机延迟与点击方式">
-                        <fa:SettingsExpanderItem Description="1~1000 毫秒">
+                    <fa:SettingsExpander x:Name="ExpanderClick" Header="点击" Description="连点间隔、随机延迟与点击方式">
+                        <fa:SettingsExpander.IconSource>
+                            <!-- 鼠标图形（Symbol 无鼠标图标，用标准比例路径绘制） -->
+                            <fa:PathIconSource>
+                                <fa:PathIconSource.Data>
+                                    <StreamGeometry>M12 2C8.13 2 5 5.13 5 9v6c0 3.87 3.13 7 7 7s7-3.13 7-7V9c0-3.87-3.13-7-7-7zm-.5 3h1c.28 0 .5.22.5.5v5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5v-5c0-.28.22-.5.5-.5z</StreamGeometry>
+                                </fa:PathIconSource.Data>
+                            </fa:PathIconSource>
+                        </fa:SettingsExpander.IconSource>
+                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Clock" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -127,7 +143,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒">
+                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Refresh" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -155,9 +171,14 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键">
+                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
-                                <fa:SymbolIconSource Symbol="TouchPointer" />
+                                <!-- 鼠标图形（Symbol 无鼠标图标，用标准比例路径绘制） -->
+                                <fa:PathIconSource>
+                                    <fa:PathIconSource.Data>
+                                        <StreamGeometry>M12 2C8.13 2 5 5.13 5 9v6c0 3.87 3.13 7 7 7s7-3.13 7-7V9c0-3.87-3.13-7-7-7zm-.5 3h1c.28 0 .5.22.5.5v5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5v-5c0-.28.22-.5.5-.5z</StreamGeometry>
+                                    </fa:PathIconSource.Data>
+                                </fa:PathIconSource>
                             </fa:SettingsExpanderItem.IconSource>
                             <fa:SettingsExpanderItem.Content>
                                 <TextBlock Text="点击模式" />
@@ -175,7 +196,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放">
+                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Switch" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -197,8 +218,11 @@
                     </fa:SettingsExpander>
 
                     <!-- 组 2：坐标与窗口 -->
-                    <fa:SettingsExpander Header="坐标与窗口" Description="坐标锁定、置顶与拖动锁定">
-                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标">
+                    <fa:SettingsExpander x:Name="ExpanderCoord" Header="坐标与窗口" Description="坐标锁定、置顶与拖动锁定">
+                        <fa:SettingsExpander.IconSource>
+                            <fa:SymbolIconSource Symbol="Target" />
+                        </fa:SettingsExpander.IconSource>
+                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Target" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -232,7 +256,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上">
+                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Pin" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -244,7 +268,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动">
+                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="ProtectedDocument" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -258,8 +282,11 @@
                     </fa:SettingsExpander>
 
                     <!-- 组 3：热键 -->
-                    <fa:SettingsExpander Header="热键" Description="后台启动/停止连点">
-                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制">
+                    <fa:SettingsExpander x:Name="ExpanderHotkey" Header="热键" Description="后台启动/停止连点">
+                        <fa:SettingsExpander.IconSource>
+                            <fa:SymbolIconSource Symbol="Keyboard" />
+                        </fa:SettingsExpander.IconSource>
+                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="40,6">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Keyboard" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -274,12 +301,276 @@
                         </fa:SettingsExpanderItem>
                     </fa:SettingsExpander>
 
-                </StackPanel>
+                    <!-- 组 4：关于 -->
+                    <fa:SettingsExpander x:Name="ExpanderAbout" Header="关于" Description="版本、作者与支持">
+                        <fa:SettingsExpander.IconSource>
+                            <fa:SymbolIconSource Symbol="Help" />
+                        </fa:SettingsExpander.IconSource>
+                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="40,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="ContactInfo" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="抖音主页" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://www.douyin.com/user/MS4wLjABAAAABDWaMze6oSVRdkv-3eq7K8B7iwh3ygR040JWsv9OJys"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="40,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="World" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="访问" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://j4s.wuaze.com/"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="40,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Important" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="赞助" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://j4s.wuaze.com/?page_id=40"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="第三方库" Description="Avalonia · FluentAvalonia · SkiaSharp · HarfBuzzSharp" Padding="40,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Library" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <TextBlock Text="MIT" VerticalAlignment="Center"
+                                           Foreground="{StaticResource SubTextBrush}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+                    </fa:SettingsExpander>
+
+                    </StackPanel>
+
+                    <!-- 高效模式：无菜单，直接平铺所有设置项 -->
+                    <StackPanel x:Name="FlatPanel" Spacing="2" IsVisible="False">
+
+                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Clock" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="点击间隔" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <StackPanel>
+                                    <Slider Classes="settingslider" Minimum="1" Maximum="1000"
+                                            SmallChange="5" LargeChange="50"
+                                            Value="{Binding Settings.Interval}" />
+                                    <DockPanel Margin="0,4,0,0">
+                                        <TextBlock Text="毫秒" DockPanel.Dock="Right" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource SubTextBrush}" Margin="6,0,0,0" />
+                                        <TextBox Classes="valuebox"
+                                                 Text="{Binding Settings.Interval, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Refresh" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="随机延迟" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="启用随机延迟" VerticalAlignment="Center" />
+                                        <ToggleSwitch IsChecked="{Binding Settings.UseRandomDelay}"
+                                                      VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <Slider Classes="settingslider" Margin="0,4,0,0" Minimum="1" Maximum="1000"
+                                            SmallChange="5" LargeChange="50"
+                                            IsEnabled="{Binding Settings.UseRandomDelay}"
+                                            Value="{Binding Settings.RandomDelayMax}" />
+                                    <DockPanel Margin="0,4,0,0" IsEnabled="{Binding Settings.UseRandomDelay}">
+                                        <TextBlock Text="毫秒内" DockPanel.Dock="Right" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource SubTextBrush}" Margin="6,0,0,0" />
+                                        <TextBox Classes="valuebox"
+                                                 Text="{Binding Settings.RandomDelayMax, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                </StackPanel>
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <!-- 鼠标图形（Symbol 无鼠标图标，用标准比例路径绘制） -->
+                                <fa:PathIconSource>
+                                    <fa:PathIconSource.Data>
+                                        <StreamGeometry>M12 2C8.13 2 5 5.13 5 9v6c0 3.87 3.13 7 7 7s7-3.13 7-7V9c0-3.87-3.13-7-7-7zm-.5 3h1c.28 0 .5.22.5.5v5c0 .28-.22.5-.5.5h-1c-.28 0-.5-.22-.5-.5v-5c0-.28.22-.5.5-.5z</StreamGeometry>
+                                    </fa:PathIconSource.Data>
+                                </fa:PathIconSource>
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="点击模式" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ComboBox Classes="settingscombo"
+                                          ItemsSource="{Binding Settings.ClickTypes}"
+                                          SelectedItem="{Binding Settings.SelectedClickType}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Label}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Switch" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="点击方式" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ComboBox Classes="settingscombo"
+                                          ItemsSource="{Binding Settings.ClickModes}"
+                                          SelectedItem="{Binding Settings.SelectedClickMode}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Label}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Target" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="坐标锁定" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <StackPanel Spacing="6">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="启用坐标锁定" VerticalAlignment="Center" />
+                                        <ToggleSwitch IsChecked="{Binding Settings.LockPosition}"
+                                                      VerticalAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" IsEnabled="{Binding Settings.LockPosition}">
+                                        <TextBlock Text="目标：" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource SubTextBrush}" />
+                                        <TextBlock Text="{Binding Settings.TargetText}" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource TextBrush}" />
+                                        <Button Content="取当前坐标" Command="{Binding PickPositionCommand}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" IsEnabled="{Binding Settings.LockPosition}">
+                                        <TextBlock Text="实时位置：" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource SubTextBrush}" />
+                                        <TextBlock x:Name="LivePositionTextFlat" Text="—" VerticalAlignment="Center"
+                                                   Foreground="{StaticResource TextBrush}" />
+                                    </StackPanel>
+                                    <TextBlock Text="移动鼠标到目标位置后按 Ctrl+S 确定" FontSize="11"
+                                               Foreground="{StaticResource SubTextBrush}"
+                                               IsEnabled="{Binding Settings.LockPosition}" />
+                                </StackPanel>
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Pin" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="窗口置顶" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.IsTopmost}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="ProtectedDocument" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="锁定窗口" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.LockWindow}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Keyboard" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="启动热键" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="{Binding Settings.HotKeyButtonText}"
+                                        MinWidth="150" HorizontalAlignment="Right"
+                                        Click="HotKeyButton_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="ContactInfo" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="抖音主页" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://www.douyin.com/user/MS4wLjABAAAABDWaMze6oSVRdkv-3eq7K8B7iwh3ygR040JWsv9OJys"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="World" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="访问" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://j4s.wuaze.com/"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Important" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="赞助" MinWidth="100" HorizontalAlignment="Right"
+                                        Tag="https://j4s.wuaze.com/?page_id=40"
+                                        Click="OpenLink_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="第三方库" Description="Avalonia · FluentAvalonia · SkiaSharp · HarfBuzzSharp" Padding="16,6">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Library" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <TextBlock Text="MIT" VerticalAlignment="Center"
+                                           Foreground="{StaticResource SubTextBrush}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                    </StackPanel>
+                </Grid>
             </ScrollViewer>
 
             <!-- 底部按钮 -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
-                <Button Content="关于" Click="AboutButton_Click" Margin="0,0,8,0" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                 <Button Content="恢复默认" Click="ResetButton_Click" Margin="0,0,8,0" />
                 <Button Content="完成" Click="DoneButton_Click" />
             </StackPanel>

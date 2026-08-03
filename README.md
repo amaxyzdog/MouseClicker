@@ -32,8 +32,7 @@ VD项目/
 ├── Program.cs                    # 程序入口（单实例互斥体）
 ├── App.axaml / App.axaml.cs      # 应用与 FluentAvalonia 主题
 ├── MainWindow.axaml(.cs)         # 主浮窗（工具栏 + 托盘）
-├── SettingsWindow.axaml(.cs)     # 设置窗口
-├── AboutWindow.axaml(.cs)        # 关于页面
+├── SettingsWindow.axaml(.cs)     # 设置窗口（含简洁/高效模式与关于分组）
 ├── AlertWindow.axaml(.cs)        # 单实例提示窗口
 ├── ViewModels/                   # MVVM：Main / Settings / RelayCommand / ViewModelBase
 ├── Services/
@@ -42,7 +41,7 @@ VD项目/
 ├── MouseClickerSetup.iss         # 安装程序脚本（Inno Setup）
 ├── languages/                    # 安装程序中文语言包
 ├── dist/                         # 安装程序输出目录
-└── icon.jpg / icon.ico           # 应用图标
+└── icon.png / icon.ico           # 应用图标
 ```
 
 ## 编译与打包
@@ -56,14 +55,14 @@ dotnet build MouseClicker.csproj -c Debug
 # 编译 Release
 dotnet build MouseClicker.csproj -c Release
 
-# 打包单文件（框架依赖，输出到 bin\Release\net8.0\win-x64\publish\）
-dotnet publish MouseClicker.csproj -c Release -r win-x64 --self-contained false
+# 打包单文件（自包含，内置 .NET 运行时，输出到 bin\Release\net8.0\win-x64\publish\）
+dotnet publish MouseClicker.csproj -c Release -r win-x64 --self-contained true
 
 # 生成安装程序（需先安装 Inno Setup 6，输出到 dist\）
 & "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe" MouseClickerSetup.iss
 ```
 
-发布目录包含 `MouseClicker.exe` 及运行所需原生库；安装程序为 `dist\MouseClickerSetup-1.0.0.exe`（中文向导、桌面/开始菜单快捷方式、卸载程序，安装前自动检测 .NET 8 运行时）。
+发布目录包含 `MouseClicker.exe`（内置 .NET 运行时，目标机无需预装）及运行所需原生库；安装程序为 `dist\MouseClickerSetup-1.1.0.exe`（中文向导、桌面/开始菜单快捷方式、卸载程序）。
 
 ## 使用说明
 
@@ -75,7 +74,7 @@ dotnet publish MouseClicker.csproj -c Release -r win-x64 --self-contained false
    - **窗口置顶 / 锁定窗口**：控制浮窗行为。
    - **启动热键**：点击按钮后按下新按键完成录制。
 4. 点击 **✕** 最小化到托盘；双击托盘图标恢复。
-5. 设置页底部可进入 **关于**。
+5. 设置页右上角可切换 **简洁/高效模式**（收拢/展开全部分组），底部"关于"分组含作者个人网站与赞助入口。
 
 ## 配置文件
 
