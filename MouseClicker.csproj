@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>MouseClicker</RootNamespace>
+    <AssemblyName>MouseClicker</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- 关闭编译期绑定，避免 SelectedValuePath 等反射绑定在编译时报错 -->
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <!-- AVLN3001：带参构造函数窗口无需运行时加载 XAML，忽略该提示 -->
+    <NoWarn>$(NoWarn);AVLN3001</NoWarn>
+    <!-- 单文件发布配置（框架依赖，无需安装/自带运行时即可在本机运行） -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <DebugType>embedded</DebugType>
+    <Version>1.0.0</Version>
+    <!-- 嵌入 exe 图标（任务栏/文件管理器/快捷方式显示） -->
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.18" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.18" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.4.1" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.18" Condition="'$(Configuration)' == 'Debug'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 图标：既作为嵌入资源（avares:// 读取），也复制到输出目录 -->
+    <None Update="icon.jpg" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="icon.ico" CopyToOutputDirectory="PreserveNewest" />
+    <AvaloniaResource Include="icon.jpg" />
+  </ItemGroup>
+
+</Project>

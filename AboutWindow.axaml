@@ -1,0 +1,114 @@
+<Window x:Class="MouseClicker.AboutWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        Title="关于"
+        Width="400"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+
+    <Window.Resources>
+        <ControlTheme x:Key="IconButtonTheme" TargetType="Button">
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="Transparent" CornerRadius="6">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#Bg">
+                <Setter Property="Background" Value="#E8EAF2" />
+            </Style>
+        </ControlTheme>
+    </Window.Resources>
+
+    <Border CornerRadius="14"
+            Margin="24"
+            BorderBrush="#D9DCE5"
+            BorderThickness="1"
+            BoxShadow="0 2 16 0 #47000000">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFFFFF" />
+                <GradientStop Offset="1" Color="#ECEEF6" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="16,10,16,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- 标题栏 -->
+            <Grid Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="关于" FontSize="14" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Theme="{StaticResource IconButtonTheme}"
+                        ToolTip.Tip="关闭"
+                        Click="CloseButton_Click">
+                    <fa:SymbolIcon Symbol="Cancel" FontSize="12" />
+                </Button>
+            </Grid>
+
+            <!-- 应用信息 -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,14,0,0">
+                <Border Width="40" Height="40" CornerRadius="20" ClipToBounds="True">
+                    <Image x:Name="AboutIcon" Stretch="UniformToFill" />
+                </Border>
+                <StackPanel VerticalAlignment="Center" Spacing="2">
+                    <TextBlock Text="鼠标连点器" FontSize="15" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextBrush}" />
+                    <TextBlock Text="版本 1.0.0" FontSize="11"
+                               Foreground="{StaticResource SubTextBrush}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 作者 -->
+            <StackPanel Grid.Row="2" Margin="0,14,0,0" Spacing="4">
+                <TextBlock Text="作者" FontWeight="SemiBold" />
+                <TextBlock Text="J4s" Foreground="{StaticResource TextBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="抖音：" Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                    <TextBlock Text="J4s（点击打开主页）" Foreground="{StaticResource AccentBrush}" Cursor="Hand"
+                               VerticalAlignment="Center" PointerPressed="Douyin_PointerPressed" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 第三方库 -->
+            <StackPanel Grid.Row="3" Margin="0,14,0,0" Spacing="4">
+                <TextBlock Text="使用到的第三方库" FontWeight="SemiBold" />
+                <Border Background="#E8EAF2" CornerRadius="6" Padding="10,8">
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="· Avalonia 11.3（MIT）— 跨平台 UI 框架" Foreground="{StaticResource TextBrush}" FontSize="12" />
+                        <TextBlock Text="· FluentAvalonia 2.4（MIT）— Fluent Design 控件库" Foreground="{StaticResource TextBrush}" FontSize="12" />
+                        <TextBlock Text="· SkiaSharp（MIT）— 渲染引擎" Foreground="{StaticResource TextBrush}" FontSize="12" />
+                        <TextBlock Text="· HarfBuzzSharp（MIT）— 字体整形" Foreground="{StaticResource TextBrush}" FontSize="12" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

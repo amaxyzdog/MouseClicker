@@ -1,0 +1,45 @@
+<Window x:Class="MouseClicker.AlertWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        Title="鼠标连点器"
+        Width="360"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+
+    <Border CornerRadius="14"
+            Margin="20"
+            BorderBrush="#D9DCE5"
+            BorderThickness="1"
+            BoxShadow="0 2 16 0 #47000000">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFFFFF" />
+                <GradientStop Offset="1" Color="#ECEEF6" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="16,16,16,14">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <fa:SymbolIcon Symbol="Important" FontSize="20" Foreground="{StaticResource AccentBrush}" />
+                <TextBlock Text="鼠标连点器已在运行中，请勿重复打开。" FontSize="13"
+                           Foreground="{StaticResource TextBrush}" TextWrapping="Wrap"
+                           VerticalAlignment="Center" MaxWidth="260" />
+            </StackPanel>
+
+            <Button Grid.Row="1" Content="确定" HorizontalAlignment="Right" Margin="0,16,0,0"
+                    Click="OkButton_Click" />
+        </Grid>
+    </Border>
+</Window>

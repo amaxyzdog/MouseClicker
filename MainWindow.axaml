@@ -1,0 +1,141 @@
+<Window x:Class="MouseClicker.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        Title="鼠标连点器"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        Topmost="{Binding Settings.IsTopmost}"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+
+    <Window.Resources>
+        <!-- 图标按钮：透明背景，悬停显示浅灰 -->
+        <ControlTheme x:Key="IconButtonTheme" TargetType="Button">
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="Transparent" CornerRadius="6">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#Bg">
+                <Setter Property="Background" Value="#E8EAF2" />
+            </Style>
+        </ControlTheme>
+
+        <!-- 启动/停止按钮：圆形，红/蓝底，白图标 -->
+        <ControlTheme x:Key="StartButtonTheme" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="16">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#Bg">
+                <Setter Property="Opacity" Value="0.88" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#Bg">
+                <Setter Property="Opacity" Value="0.75" />
+            </Style>
+        </ControlTheme>
+    </Window.Resources>
+
+    <!-- 外层留白 20px，给阴影留出渲染空间 -->
+    <Border CornerRadius="14"
+            Margin="20"
+            BorderBrush="#D9DCE5"
+            BorderThickness="1"
+            BoxShadow="0 2 14 0 #47000000">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFFFFF" />
+                <GradientStop Offset="1" Color="#ECEEF6" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <!-- 横板：单行工具栏布局 -->
+        <Grid Margin="14,8,10,8" Background="Transparent" PointerPressed="TitleBar_PointerPressed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 标题：软件图标 + 名称 -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,12,0">
+                <Border Width="18" Height="18" CornerRadius="9" ClipToBounds="True" Margin="0,0,6,0">
+                    <Image x:Name="AppIcon" Stretch="UniformToFill" />
+                </Border>
+                <TextBlock Text="鼠标连点器" FontSize="13" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- 点击模式 + 间隔 + 热键 -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                <TextBlock Text="{Binding ClickModeDisplay}" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding IntervalDisplay}" Margin="8,0,0,0"
+                           Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="·" Margin="8,0,0,0"
+                           Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                <TextBlock Text="热键 " Margin="6,0,0,0"
+                           Foreground="{StaticResource SubTextBrush}" VerticalAlignment="Center" />
+                <Border Background="#E8EAF2" CornerRadius="4" Padding="6,1" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Settings.HotKeyText}" FontWeight="SemiBold" FontSize="11"
+                               Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center" />
+                </Border>
+            </StackPanel>
+
+            <!-- 占位，将按钮推到右侧 -->
+            <TextBlock Grid.Column="2" Text="" />
+
+            <!-- 启动/停止 -->
+            <Button Grid.Column="3" Theme="{StaticResource StartButtonTheme}" Margin="0,0,6,0"
+                    ToolTip.Tip="{Binding StartStopToolTip}"
+                    Background="{Binding StartStopBrush}"
+                    Command="{Binding ToggleCommand}">
+                <fa:SymbolIcon Symbol="{Binding StartStopSymbol}" FontSize="13" Foreground="White" />
+            </Button>
+
+            <!-- 设置 -->
+            <Button Grid.Column="4" Theme="{StaticResource IconButtonTheme}"
+                    ToolTip.Tip="设置"
+                    Click="SettingsButton_Click">
+                <fa:SymbolIcon Symbol="Settings" FontSize="12" />
+            </Button>
+
+            <!-- 关闭（最小化到托盘） -->
+            <Button Grid.Column="5" Theme="{StaticResource IconButtonTheme}"
+                    ToolTip.Tip="最小化到托盘"
+                    Click="CloseButton_Click">
+                <fa:SymbolIcon Symbol="Cancel" FontSize="12" />
+            </Button>
+        </Grid>
+    </Border>
+</Window>
