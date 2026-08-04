@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Avalonia.Threading;
 using MouseClicker.Services;
 
 namespace MouseClicker.ViewModels;
@@ -30,11 +31,40 @@ public sealed class SettingsViewModel : ViewModelBase
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "MouseClicker", "config.json");
 
+    /// <summary>配置保存防抖定时器：避免拖动滑块/切换开关时每个属性变化都立即写盘。</summary>
+    private readonly DispatcherTimer _saveTimer = new() { Interval = TimeSpan.FromMilliseconds(500) };
+    private bool _savePending;
+
     public SettingsViewModel()
     {
         Load();
-        // 任意设置变化即自动保存，无需手动确认
-        PropertyChanged += (_, _) => Save();
+        // 任意设置变化自动保存（500ms 防抖：连续变化只在停止后写一次盘）
+        _saveTimer.Tick += (_, _) =>
+        {
+            _saveTimer.Stop();
+            if (_savePending)
+            {
+                _savePending = false;
+                Save();
+            }
+        };
+        PropertyChanged += (_, _) =>
+        {
+            _savePending = true;
+            _saveTimer.Stop();
+            _saveTimer.Start();
+        };
+    }
+
+    /// <summary>程序退出前调用，将尚未落盘的更改立即写入配置文件。</summary>
+    public void FlushSave()
+    {
+        _saveTimer.Stop();
+        if (_savePending)
+        {
+            _savePending = false;
+            Save();
+        }
     }
 
     private int _interval = 100;
@@ -49,6 +79,8 @@ public sealed class SettingsViewModel : ViewModelBase
     private int? _targetY;
     private int _hotKey = DefaultHotKey;
     private bool _isCapturingHotKey;
+    private bool _autoCheckUpdate = true;
+    private bool _closeToExit;
 
     // ---- ComboBox 选项 ----
 
@@ -170,6 +202,22 @@ public sealed class SettingsViewModel : ViewModelBase
         set => SetProperty(ref _lockWindow, value);
     }
 
+    // ---- 更新 ----
+
+    /// <summary>启动时是否自动检查更新。</summary>
+    public bool AutoCheckUpdate
+    {
+        get => _autoCheckUpdate;
+        set => SetProperty(ref _autoCheckUpdate, value);
+    }
+
+    /// <summary>点击关闭按钮后是否直接退出程序（否：最小化到系统托盘）。</summary>
+    public bool CloseToExit
+    {
+        get => _closeToExit;
+        set => SetProperty(ref _closeToExit, value);
+    }
+
     public int? TargetX
     {
         get => _targetX;
@@ -250,6 +298,8 @@ public sealed class SettingsViewModel : ViewModelBase
         TargetY = null;
         IsCapturingHotKey = false;
         HotKey = DefaultHotKey;
+        AutoCheckUpdate = true;
+        CloseToExit = false;
     }
 
     /// <summary>
@@ -319,6 +369,8 @@ public sealed class SettingsViewModel : ViewModelBase
         public int? TargetX { get; set; }
         public int? TargetY { get; set; }
         public int HotKey { get; set; } = DefaultHotKey;
+        public bool AutoCheckUpdate { get; set; } = true;
+        public bool CloseToExit { get; set; }
     }
 
     /// <summary>从配置文件加载设置（文件不存在或损坏时使用默认值）。</summary>
@@ -348,6 +400,8 @@ public sealed class SettingsViewModel : ViewModelBase
             TargetX = data.TargetX;
             TargetY = data.TargetY;
             HotKey = data.HotKey;
+            AutoCheckUpdate = data.AutoCheckUpdate;
+            CloseToExit = data.CloseToExit;
         }
         catch
         {
@@ -379,6 +433,8 @@ public sealed class SettingsViewModel : ViewModelBase
                 TargetX = TargetX,
                 TargetY = TargetY,
                 HotKey = HotKey,
+                AutoCheckUpdate = AutoCheckUpdate,
+                CloseToExit = CloseToExit,
             };
             File.WriteAllText(_configPath, JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
         }

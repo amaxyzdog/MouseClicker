@@ -69,6 +69,9 @@ public partial class SettingsWindow : Window
         }
     }
 
+    /// <summary>检查更新（由主窗口执行查询、下载与安装）。</summary>
+    private void UpdateCheck_Click(object? sender, RoutedEventArgs e) => _viewModel.RaiseUpdateCheckRequested();
+
     private void HotKeyButton_Click(object? sender, RoutedEventArgs e)
     {
         var settings = _viewModel.Settings;

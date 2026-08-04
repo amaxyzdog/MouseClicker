@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using FluentAvalonia.UI.Controls;
+using MouseClicker.Services;
 using MouseClicker.ViewModels;
 
 namespace MouseClicker;
@@ -14,6 +15,8 @@ public partial class MainWindow : Window
     private readonly MainViewModel _viewModel = new();
     private SettingsWindow? _settingsWindow;
     private TrayIcon? _trayIcon;
+    private bool _startupCheckDone;
+    private bool _updateBusy;
 
     public MainWindow()
     {
@@ -25,7 +28,25 @@ public partial class MainWindow : Window
         CreateTrayIcon();
 
         _viewModel.WarningRequested += ShowWarning;
-        Closed += (_, _) => _viewModel.Dispose();
+        _viewModel.UpdateCheckRequested += () => _ = CheckForUpdatesAsync(manual: true);
+        Closed += (_, _) =>
+        {
+            _viewModel.Settings.FlushSave();
+            _viewModel.Dispose();
+        };
+        // 启动后静默检查更新：有新版本才提示（可在设置中关闭）
+        Loaded += (_, _) =>
+        {
+            if (_startupCheckDone)
+            {
+                return;
+            }
+            _startupCheckDone = true;
+            if (_viewModel.Settings.AutoCheckUpdate)
+            {
+                _ = CheckForUpdatesAsync();
+            }
+        };
     }
 
     // ---- 图标资源 ----
@@ -111,7 +132,6 @@ public partial class MainWindow : Window
 
     private void Exit()
     {
-        _viewModel.Dispose();
         _trayIcon?.Dispose();
         Close();
     }
@@ -135,6 +155,59 @@ public partial class MainWindow : Window
         catch
         {
             // 弹窗失败时静默降级，不影响主流程
+        }
+    }
+
+    // ---- 自动更新 ----
+
+    /// <summary>检查并打开更新窗口。manual 为 true（手动点击）时无更新也显示历史版本；否则仅在新版本时提示。</summary>
+    private async Task CheckForUpdatesAsync(bool manual = false)
+    {
+        if (_updateBusy)
+        {
+            return;
+        }
+        _updateBusy = true;
+        var opened = false;
+        try
+        {
+            var releases = await Task.Run(() => UpdateService.GetReleasesAsync(10));
+            if (releases is not { Count: > 0 })
+            {
+                if (manual)
+                {
+                    await ShowMessageAsync("检查更新", "获取更新信息失败，请检查网络后重试。");
+                }
+                return;
+            }
+
+            var latest = releases[0];
+            if (!manual && !UpdateService.IsNewer(latest))
+            {
+                // 启动静默检查且已是最新：不打扰用户
+                return;
+            }
+
+            // 独立更新窗口：无灰色遮罩，可选定版本并展示标签与更新说明
+            var win = new UpdateWindow(releases) { Topmost = Topmost };
+            win.Closed += (_, _) => _updateBusy = false;
+            win.Show(this);
+            win.Activate();
+            opened = true;
+        }
+        catch
+        {
+            if (manual)
+            {
+                await ShowMessageAsync("检查更新", "获取更新信息失败，请检查网络后重试。");
+            }
+        }
+        finally
+        {
+            if (!opened)
+            {
+                _updateBusy = false;
+            }
         }
     }
 
@@ -163,5 +236,15 @@ public partial class MainWindow : Window
         }
     }
 
-    private void CloseButton_Click(object? sender, RoutedEventArgs e) => Hide();
+    private void CloseButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_viewModel.Settings.CloseToExit)
+        {
+            Exit();
+        }
+        else
+        {
+            Hide();
+        }
+    }
 }

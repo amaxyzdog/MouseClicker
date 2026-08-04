@@ -43,6 +43,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/amaxyzdog/Documents/VD项目/SettingsWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/amaxyzdog/Documents/VD项目/UpdateWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/amaxyzdog/Documents/VD项目/icon.png]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaResource
 

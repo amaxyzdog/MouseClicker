@@ -121,7 +121,7 @@
                                 </fa:PathIconSource.Data>
                             </fa:PathIconSource>
                         </fa:SettingsExpander.IconSource>
-                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Clock" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -143,7 +143,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Refresh" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -171,7 +171,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <!-- 鼠标图形（Symbol 无鼠标图标，用标准比例路径绘制） -->
                                 <fa:PathIconSource>
@@ -196,7 +196,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Switch" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -222,7 +222,7 @@
                         <fa:SettingsExpander.IconSource>
                             <fa:SymbolIconSource Symbol="Target" />
                         </fa:SettingsExpander.IconSource>
-                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Target" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -256,7 +256,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Pin" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -268,7 +268,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="ProtectedDocument" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -279,6 +279,18 @@
                                 <ToggleSwitch IsChecked="{Binding Settings.LockWindow}" />
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="关闭后最小化到系统托盘；开启后点击 ✕ 直接退出" Padding="40,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Dismiss" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="点击关闭直接退出" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.CloseToExit}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
                     </fa:SettingsExpander>
 
                     <!-- 组 3：热键 -->
@@ -286,7 +298,7 @@
                         <fa:SettingsExpander.IconSource>
                             <fa:SymbolIconSource Symbol="Keyboard" />
                         </fa:SettingsExpander.IconSource>
-                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="40,6">
+                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Keyboard" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -301,12 +313,37 @@
                         </fa:SettingsExpanderItem>
                     </fa:SettingsExpander>
 
-                    <!-- 组 4：关于 -->
+                    <!-- 组 4：更新 -->
+                    <fa:SettingsExpander x:Name="ExpanderUpdate" Header="更新" Description="自动检查与版本更新">
+                        <fa:SettingsExpander.IconSource>
+                            <fa:SymbolIconSource Symbol="Sync" />
+                        </fa:SettingsExpander.IconSource>
+                        <fa:SettingsExpanderItem Content="启动时自动检查更新" Description="程序启动后在后台查询 GitHub 新版本" Padding="40,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Sync" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.AutoCheckUpdate}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="检查更新" Description="{Binding UpdateInfoText}" Padding="40,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Refresh" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="检查" MinWidth="100" HorizontalAlignment="Right"
+                                        Click="UpdateCheck_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+                    </fa:SettingsExpander>
+
+                    <!-- 组 5：关于 -->
                     <fa:SettingsExpander x:Name="ExpanderAbout" Header="关于" Description="版本、作者与支持">
                         <fa:SettingsExpander.IconSource>
                             <fa:SymbolIconSource Symbol="Help" />
                         </fa:SettingsExpander.IconSource>
-                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="40,6">
+                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="ContactInfo" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -317,7 +354,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="40,6">
+                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="World" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -328,7 +365,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="40,6">
+                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="40,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Important" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -338,16 +375,6 @@
                                         Click="OpenLink_Click" />
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
-
-                        <fa:SettingsExpanderItem Content="第三方库" Description="Avalonia · FluentAvalonia · SkiaSharp · HarfBuzzSharp" Padding="40,6">
-                            <fa:SettingsExpanderItem.IconSource>
-                                <fa:SymbolIconSource Symbol="Library" />
-                            </fa:SettingsExpanderItem.IconSource>
-                            <fa:SettingsExpanderItem.Footer>
-                                <TextBlock Text="MIT" VerticalAlignment="Center"
-                                           Foreground="{StaticResource SubTextBrush}" />
-                            </fa:SettingsExpanderItem.Footer>
-                        </fa:SettingsExpanderItem>
                     </fa:SettingsExpander>
 
                     </StackPanel>
@@ -355,7 +382,7 @@
                     <!-- 高效模式：无菜单，直接平铺所有设置项 -->
                     <StackPanel x:Name="FlatPanel" Spacing="2" IsVisible="False">
 
-                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="1~1000 毫秒" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Clock" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -377,7 +404,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="每次点击叠加 0~上限 毫秒" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Refresh" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -405,7 +432,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="左键 / 右键 / 中键" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <!-- 鼠标图形（Symbol 无鼠标图标，用标准比例路径绘制） -->
                                 <fa:PathIconSource>
@@ -430,7 +457,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="单击 / 双击 / 按下并释放" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Switch" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -450,7 +477,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="每次点击前移动到目标坐标" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Target" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -484,7 +511,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="主窗口始终位于其他窗口之上" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Pin" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -496,7 +523,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="锁定后主窗口不可拖动" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="ProtectedDocument" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -508,7 +535,38 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="16,6">
+                        <fa:SettingsExpanderItem Description="关闭后最小化到系统托盘；开启后点击 ✕ 直接退出" Padding="16,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Dismiss" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Content>
+                                <TextBlock Text="点击关闭直接退出" />
+                            </fa:SettingsExpanderItem.Content>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.CloseToExit}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="启动时自动检查更新" Description="程序启动后在后台查询 GitHub 新版本" Padding="16,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Sync" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <ToggleSwitch IsChecked="{Binding Settings.AutoCheckUpdate}" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Content="检查更新" Description="{Binding UpdateInfoText}" Padding="16,4">
+                            <fa:SettingsExpanderItem.IconSource>
+                                <fa:SymbolIconSource Symbol="Refresh" />
+                            </fa:SettingsExpanderItem.IconSource>
+                            <fa:SettingsExpanderItem.Footer>
+                                <Button Content="检查" MinWidth="100" HorizontalAlignment="Right"
+                                        Click="UpdateCheck_Click" />
+                            </fa:SettingsExpanderItem.Footer>
+                        </fa:SettingsExpanderItem>
+
+                        <fa:SettingsExpanderItem Description="点击按钮后按下新按键录制" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Keyboard" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -522,7 +580,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="16,6">
+                        <fa:SettingsExpanderItem Content="作者" Description="J4s · 抖音" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="ContactInfo" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -533,7 +591,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="16,6">
+                        <fa:SettingsExpanderItem Content="个人网站" Description="j4s.wuaze.com" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="World" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -544,7 +602,7 @@
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 
-                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="16,6">
+                        <fa:SettingsExpanderItem Content="赞助" Description="喜欢请支持一下" Padding="16,4">
                             <fa:SettingsExpanderItem.IconSource>
                                 <fa:SymbolIconSource Symbol="Important" />
                             </fa:SettingsExpanderItem.IconSource>
@@ -552,16 +610,6 @@
                                 <Button Content="赞助" MinWidth="100" HorizontalAlignment="Right"
                                         Tag="https://j4s.wuaze.com/?page_id=40"
                                         Click="OpenLink_Click" />
-                            </fa:SettingsExpanderItem.Footer>
-                        </fa:SettingsExpanderItem>
-
-                        <fa:SettingsExpanderItem Content="第三方库" Description="Avalonia · FluentAvalonia · SkiaSharp · HarfBuzzSharp" Padding="16,6">
-                            <fa:SettingsExpanderItem.IconSource>
-                                <fa:SymbolIconSource Symbol="Library" />
-                            </fa:SettingsExpanderItem.IconSource>
-                            <fa:SettingsExpanderItem.Footer>
-                                <TextBlock Text="MIT" VerticalAlignment="Center"
-                                           Foreground="{StaticResource SubTextBrush}" />
                             </fa:SettingsExpanderItem.Footer>
                         </fa:SettingsExpanderItem>
 

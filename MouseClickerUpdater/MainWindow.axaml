@@ -1,0 +1,43 @@
+<Window x:Class="MouseClickerUpdater.MainWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="更新中"
+        Width="420"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+
+    <Border CornerRadius="14"
+            Margin="16"
+            BorderBrush="#D9DCE5"
+            BorderThickness="1"
+            BoxShadow="0 2 16 0 #47000000">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFFFFF" />
+                <GradientStop Offset="1" Color="#ECEEF6" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <StackPanel Margin="18,16" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="更新中" FontSize="14" FontWeight="SemiBold" Foreground="#1F2329" />
+                <TextBlock x:Name="VersionText" FontSize="14" FontWeight="SemiBold"
+                           Foreground="#4F6EF7" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock x:Name="StatusText" Text="正在准备…" TextWrapping="Wrap" Foreground="#1F2329" />
+
+            <!-- 进度条固定宽度居中，避免被拉伸 -->
+            <ProgressBar x:Name="ProgressBar" Minimum="0" Maximum="100" Width="320" Height="16"
+                         HorizontalAlignment="Center" ShowProgressText="True" />
+
+            <TextBlock x:Name="DetailText" TextWrapping="Wrap" FontSize="11" Foreground="#6B7180" />
+        </StackPanel>
+    </Border>
+</Window>

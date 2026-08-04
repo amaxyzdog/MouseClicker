@@ -1,5 +1,5 @@
 #define MyAppName "鼠标连点器"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "J4s"
 #define MyAppExeName "MouseClicker.exe"
 
@@ -38,4 +38,5 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFile
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\icon.ico"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "启动鼠标连点器"; Flags: nowait postinstall skipifsilent
+; 不设 skipifsilent：自动更新（静默安装）完成后也会自动启动新版程序
+Filename: "{app}\{#MyAppExeName}"; Description: "启动鼠标连点器"; Flags: nowait postinstall

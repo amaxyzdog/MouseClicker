@@ -16,7 +16,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <DebugType>embedded</DebugType>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <!-- 嵌入 exe 图标（任务栏/文件管理器/快捷方式显示） -->
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
@@ -33,6 +33,14 @@
     <None Update="icon.png" CopyToOutputDirectory="PreserveNewest" />
     <None Update="icon.ico" CopyToOutputDirectory="PreserveNewest" />
     <AvaloniaResource Include="icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 独立的更新程序是单独项目（MouseClickerUpdater/），排除在主工程之外，避免重复编译 -->
+    <Compile Remove="MouseClickerUpdater\**" />
+    <None Remove="MouseClickerUpdater\**" />
+    <AvaloniaXaml Remove="MouseClickerUpdater\**" />
+    <AvaloniaResource Remove="MouseClickerUpdater\**" />
   </ItemGroup>
 
 </Project>

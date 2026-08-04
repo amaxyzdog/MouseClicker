@@ -67,6 +67,14 @@ public sealed class MainViewModel : ViewModelBase, IDisposable
     /// <summary>需要弹窗提示时的回调（由 UI 层实现，替换 WPF 的 MessageBox）。</summary>
     public event Action<string>? WarningRequested;
 
+    /// <summary>用户点击"检查更新"时触发（由 UI 层处理查询、下载与弹窗）。</summary>
+    public event Action? UpdateCheckRequested;
+
+    /// <summary>设置页"关于"分组显示的版本与更新说明。</summary>
+    public string UpdateInfoText => $"当前版本 {UpdateService.CurrentVersion} · GitHub Releases 自动更新";
+
+    public void RaiseUpdateCheckRequested() => UpdateCheckRequested?.Invoke();
+
     // ---- 运行状态 ----
 
     public bool IsRunning

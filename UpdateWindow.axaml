@@ -1,0 +1,121 @@
+<Window x:Class="MouseClicker.UpdateWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fa="using:FluentAvalonia.UI.Controls"
+        Title="检查更新"
+        Width="540"
+        MaxHeight="640"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        TransparencyLevelHint="Transparent"
+        Background="Transparent"
+        CanResize="False"
+        FontFamily="Microsoft YaHei UI"
+        FontSize="13">
+
+    <Window.Resources>
+        <!-- 图标按钮：透明背景，悬停显示浅灰 -->
+        <ControlTheme x:Key="IconButtonTheme" TargetType="Button">
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{StaticResource SubTextBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="Transparent" CornerRadius="6">
+                            <ContentPresenter Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style Selector="^:pointerover /template/ Border#Bg">
+                <Setter Property="Background" Value="#E8EAF2" />
+            </Style>
+        </ControlTheme>
+    </Window.Resources>
+
+    <Border CornerRadius="14"
+            Margin="20"
+            BorderBrush="#D9DCE5"
+            BorderThickness="1"
+            BoxShadow="0 2 16 0 #47000000">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="#FFFFFF" />
+                <GradientStop Offset="1" Color="#ECEEF6" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="16,10,16,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- 标题栏 -->
+            <Grid Grid.Row="0" Background="Transparent" PointerPressed="TitleBar_PointerPressed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="检查更新" FontSize="14" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                <Button Grid.Column="1" x:Name="CloseButton" Theme="{StaticResource IconButtonTheme}"
+                        ToolTip.Tip="关闭"
+                        Click="CloseButton_Click">
+                    <fa:SymbolIcon Symbol="Cancel" FontSize="12" />
+                </Button>
+            </Grid>
+
+            <!-- 状态 -->
+            <TextBlock x:Name="StatusText" Grid.Row="1" Margin="0,10,0,0" TextWrapping="Wrap"
+                       Foreground="{StaticResource TextBrush}" />
+
+            <!-- 选择版本 -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" Margin="0,10,0,0">
+                <TextBlock Text="选择版本：" VerticalAlignment="Center"
+                           Foreground="{StaticResource SubTextBrush}" />
+                <ComboBox x:Name="VersionBox" MinWidth="260" HorizontalAlignment="Left">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DisplayText}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- 标签与版本介绍（可展开） -->
+            <Border Grid.Row="3" Margin="0,10,0,0" Background="#FFFFFF" CornerRadius="8" Padding="12,10"
+                    BorderBrush="#E4E7EF" BorderThickness="1">
+                <StackPanel Spacing="6">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Name="TagTitleText" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                        <Button x:Name="ExpandButton" Content="展开" FontSize="11" Padding="8,1"
+                                Click="ExpandButton_Click" />
+                    </StackPanel>
+                    <TextBlock x:Name="BodyText" TextWrapping="Wrap" MaxLines="4"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{StaticResource SubTextBrush}" />
+                </StackPanel>
+            </Border>
+
+            <!-- 底部按钮：更新由独立更新程序完成 -->
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Margin="0,14,0,0" Spacing="8">
+                <Button x:Name="OpenAllButton" Content="查看全部版本" Click="OpenReleasesPage_Click" />
+                <Button x:Name="SilentButton" Content="无感更新" Click="SilentUpdate_Click" />
+                <Button x:Name="FullButton" Content="完整安装" Click="FullInstall_Click" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
